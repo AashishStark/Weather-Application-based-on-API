@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div *ngIf="weather else waiting">
+    <div class="col-sm-12 text-center">
+      <div class="inp">
+        <input class="form-control" type="text" #userInput placeholder="Enter city name">&nbsp;&nbsp;
+        <div class="ver">
+          <button class="input-group-text btn  btn-outline-primary" (click)="getCity(userInput.value)">Search</button>
+        </div>
+      </div>
+      <h5 style="text-align:center">Current weather and forecasts in your city...</h5>
+      <h2 style="text-align:center">Weather in {{weather.name}}, {{weather.sys.country}}</h2>
+    </div>
+    <div class="col-sm-12" style="text-align:center">
+      <span class="temp"><img src="assets/{{weather.weather[0].icon }}.png" alt="01d.png">
+      {{weather.main.temp | number: '1.0-0'}} &#176;F</span>
+      <p class="te" style="font:italic;font-weight:bold;">{{weather.weather[0].description | uppercase}}</p>
+    </div>
+
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>Humidity</td><td>{{weather.main.humidity}}%</td>
+        </tr>
+        <tr>
+          <td>Pressure</td><td>{{weather.main.pressure}}%</td>
+        </tr>
+        <tr>
+          <td>Sunrise</td><td>{{weather.sys.sunrise*1000|date:'H:mm'}}</td>
+        </tr>
+        <tr>
+          <td>Sunset</td><td>{{weather.sys.sunset*1000|date:'H:mm'}}</td>
+        </tr>
+        <tr>
+          <td>Geo coords</td><td>{{weather.coord.lat}},{{weather.coord.lon}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <agm-map [latitude] = "lat" [longitude]="lng"  (mapClick)="getCoords($event)">
+      <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    </agm-map>
+    </div>
+    <ng-template #waiting>Wait for some time please............</ng-template>
+  </div>
+</div>
